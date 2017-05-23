@@ -122,12 +122,16 @@ function message() {
   return _command('git', ['log', '-1', '--pretty=%B']);
 }
 
-function tag(markDirty) {
+function tag(markDirty, abbrev) {
+  abbrev = abbrev || 0;
+
+  var args = ['describe', '--always', '--tag', '--abbrev=' + abbrev];
+
   if (markDirty) {
-    return _command('git', ['describe', '--always', '--tag', '--dirty', '--abbrev=0']);
+    args.push('--dirty');
   }
 
-  return _command('git', ['describe', '--always', '--tag', '--abbrev=0']);
+  return _command('git', args);
 }
 
 function isTagDirty() {
